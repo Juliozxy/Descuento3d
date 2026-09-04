@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Buzón privado">
+  <title>Buzón</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="app">
+    <header>
+      <div>
+        <h1>Buzón</h1>
+        <p id="status">Conectando…</p>
+      </div>
+      <button id="copyLink" class="secondary">Copiar enlace</button>
+    </header>
+
+    <section id="loginPanel" class="card">
+      <h2>Acceso</h2>
+      <p>Esta conversación está protegida por una clave. No compartas el enlace con otras personas.</p>
+      <input id="roomKey" type="password" placeholder="Clave de conversación" autocomplete="off">
+      <button id="enterRoom">Entrar</button>
+      <p id="loginError" class="error"></p>
+    </section>
+
+    <section id="chatPanel" class="hidden">
+      <div id="messages" class="messages"></div>
+
+      <form id="messageForm" class="composer">
+        <textarea id="messageInput" maxlength="2000" rows="3"
+          placeholder="Escribe un mensaje…" required></textarea>
+        <div class="composerBottom">
+          <span id="counter">0/2000</span>
+          <button type="submit" id="sendButton">Enviar</button>
+        </div>
+      </form>
+    </section>
+
+    <footer>
+      <small>Canal privado compartido · No uses este sistema para información de alto riesgo.</small>
+    </footer>
+  </main>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
