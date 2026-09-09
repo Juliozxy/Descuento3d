@@ -1,34 +1,17 @@
-# Buzón privado v3
+# Buzón privado V4 — cifrado en navegador
 
-Esta versión corrige dos problemas de la versión anterior:
+Esta versión cifra cada mensaje en el navegador con Web Crypto API usando AES-256-GCM.
 
-1. La clave YA NO aparece en la URL.
-2. La lectura de mensajes no depende de `orderBy()` de Firestore; los documentos se cargan y ordenan en el navegador.
+- La clave nunca se coloca en la URL.
+- La clave nunca se guarda en localStorage ni en Firestore.
+- El nombre de la sala ya no es la clave: se usa SHA-256(clave).
+- El mensaje se cifra antes de enviarse a Firestore.
+- Firestore recibe `ciphertext`, `iv`, `uid` y fecha.
+- Para descifrar, ambos dispositivos deben introducir exactamente la misma clave.
+- Usa una clave de 16 caracteres como mínimo; se recomienda una clave larga y aleatoria.
+- Si pierdes la clave, los mensajes cifrados no pueden recuperarse.
+- Los mensajes antiguos de V3 no son compatibles con el nuevo identificador/cifrado.
 
-## Firebase
-Proyecto configurado:
-- projectId: descuentos-c64eb
-- Authentication Anonymous: debe estar activado.
-- Firestore: debe estar creado.
+IMPORTANTE: el JavaScript que se ejecuta en el navegador siempre puede inspeccionarse. Esta versión protege el contenido de los mensajes, no oculta el código.
 
-Publicar en Firestore > Rules el contenido de `firestore.rules`.
-
-## GitHub Pages
-Subir:
-- index.html
-- style.css
-- app.js
-- firestore.rules
-- .nojekyll
-
-En Settings > Pages:
-Deploy from a branch > main > / (root).
-
-## Funcionamiento
-La URL será solamente la dirección del sitio:
-https://TUUSUARIO.github.io/TUREPOSITORIO/
-
-La clave se escribe en la página y permanece únicamente en memoria del navegador. No se guarda en la URL ni en localStorage.
-
-## Importante
-Esta versión no proporciona cifrado de extremo a extremo. Firebase puede recibir el contenido de los mensajes en texto legible. No usar para información de alto riesgo.
+Después de subir la V4, publica las reglas de `firestore.rules` en Firebase Console > Firestore Database > Rules.
