@@ -28,10 +28,10 @@
     <label>Clave de conversación</label>
     <input id="roomKey" type="text" autocomplete="off" placeholder="Escribe la misma clave de la conversación">
 
-    <label>Eliminar mensajes desde</label>
+    <label>Eliminar mensajes anteriores a</label>
     <input id="fromDate" type="date">
 
-    <button id="findButton">Buscar mensajes</button>
+    <button id="findButton">Buscar mensajes anteriores</button>
 
     <div id="result" class="result hidden">
       <strong id="count">0</strong> mensajes encontrados.
@@ -40,7 +40,7 @@
 
     <div id="deleteArea" class="hidden">
       <p class="warning">⚠️ Esta operación es permanente. Los mensajes eliminados no se pueden recuperar.</p>
-      <button id="deleteButton" class="danger">Eliminar mensajes encontrados</button>
+      <button id="deleteButton" class="danger">Eliminar mensajes anteriores</button>
     </div>
 
     <p id="status"></p>

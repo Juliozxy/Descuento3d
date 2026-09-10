@@ -80,7 +80,7 @@ findButton.addEventListener('click',async()=>{
   findButton.textContent='Buscando...';
   try{
     const ref=collection(db,'rooms',key,'messages');
-    const q=query(ref,where('createdAt','>=',Timestamp.fromDate(start)));
+    const q=query(ref,where('createdAt','<',Timestamp.fromDate(start)));
     const snap=await getDocs(q);
     snap.forEach(d=>foundDocs.push(d));
 
@@ -91,7 +91,7 @@ findButton.addEventListener('click',async()=>{
     });
 
     count.textContent=foundDocs.length;
-    rangeText.textContent=foundDocs.length ? `Desde ${fromDate.value}. Primer mensaje: ${dateText(foundDocs[0].data().createdAt)}.` : 'No se encontraron mensajes desde esa fecha.';
+    rangeText.textContent=foundDocs.length ? `Anteriores al ${fromDate.value}. Primer mensaje encontrado: ${dateText(foundDocs[0].data().createdAt)}.` : 'No se encontraron mensajes anteriores a esa fecha.';
     result.classList.remove('hidden');
     if(foundDocs.length) deleteArea.classList.remove('hidden');
     statusEl.textContent='Búsqueda completada.';
