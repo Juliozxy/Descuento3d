@@ -1,15 +1,23 @@
+// IMPORTANTE: estas reglas mantienen la lectura/escritura de tu aplicación principal
+// y permiten borrar SOLO al usuario administrador indicado abajo.
+// Cambia ADMIN_EMAIL por el correo que crearás en Firebase Authentication.
+
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     match /rooms/{roomId}/messages/{messageId} {
+
       allow read: if request.auth != null;
+
       allow create: if request.auth != null
-        && request.resource.data.ciphertext is string
-        && request.resource.data.ciphertext.size() <= 10000
-        && request.resource.data.iv is string
-        && request.resource.data.iv.size() == 16
+        && request.resource.data.text is string
+        && request.resource.data.text.size() <= 2000
         && request.resource.data.uid == request.auth.uid;
-      allow update, delete: if false;
+
+      allow delete: if request.auth != null
+        && request.auth.token.email == 'ADMIN_EMAIL';
+
+      allow update: if false;
     }
   }
 }

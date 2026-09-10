@@ -3,30 +3,48 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Buzón privado</title>
+<title>Limpieza Firestore</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<main class="app">
-<section id="loginPanel" class="card">
-<h1>Buzón privado</h1>
-<p class="muted">Ingresa la clave de la conversación.</p>
-<input id="roomKey" type="password" autocomplete="off" placeholder="Clave de acceso" maxlength="128">
-<button id="enterRoom">Entrar</button>
-<p id="loginError" class="error"></p>
-<p id="status" class="status">Conectando…</p>
-</section>
-<section id="chatPanel" class="card hidden">
-<header class="chatHeader">
-<div><h1>Buzón privado</h1><p id="statusChat" class="status">Conversación privada</p></div>
-<button id="copyLink" class="secondary">Copiar enlace</button>
-</header>
-<div id="messages" class="messages"></div>
-<form id="messageForm" class="composer">
-<textarea id="messageInput" maxlength="2000" placeholder="Escribe un mensaje…" required></textarea>
-<div class="composerBottom"><span id="counter">0/2000</span><button id="sendButton">Enviar</button></div>
-</form>
-</section>
+<main class="card">
+  <header>
+    <h1>Limpieza de mensajes</h1>
+    <p>Herramienta administrativa para eliminar mensajes por fecha.</p>
+  </header>
+
+  <section id="loginPanel">
+    <label>Correo del administrador</label>
+    <input id="email" type="email" autocomplete="username" placeholder="admin@ejemplo.com">
+    <label>Contraseña</label>
+    <input id="password" type="password" autocomplete="current-password" placeholder="Contraseña">
+    <button id="loginButton">Ingresar</button>
+    <p id="loginError" class="error"></p>
+  </section>
+
+  <section id="adminPanel" class="hidden">
+    <div class="userbar"><span id="userStatus"></span><button id="logoutButton" class="secondary">Salir</button></div>
+
+    <label>Clave de conversación</label>
+    <input id="roomKey" type="text" autocomplete="off" placeholder="Escribe la misma clave de la conversación">
+
+    <label>Eliminar mensajes desde</label>
+    <input id="fromDate" type="date">
+
+    <button id="findButton">Buscar mensajes</button>
+
+    <div id="result" class="result hidden">
+      <strong id="count">0</strong> mensajes encontrados.
+      <div id="rangeText"></div>
+    </div>
+
+    <div id="deleteArea" class="hidden">
+      <p class="warning">⚠️ Esta operación es permanente. Los mensajes eliminados no se pueden recuperar.</p>
+      <button id="deleteButton" class="danger">Eliminar mensajes encontrados</button>
+    </div>
+
+    <p id="status"></p>
+  </section>
 </main>
 <script type="module" src="app.js"></script>
 </body>

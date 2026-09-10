@@ -1,17 +1,39 @@
-# Buzón privado V4 — cifrado en navegador
+# Panel independiente de limpieza de mensajes
 
-Esta versión cifra cada mensaje en el navegador con Web Crypto API usando AES-256-GCM.
+Esta aplicación permite buscar y eliminar mensajes almacenados en:
+rooms/{roomId}/messages
 
-- La clave nunca se coloca en la URL.
-- La clave nunca se guarda en localStorage ni en Firestore.
-- El nombre de la sala ya no es la clave: se usa SHA-256(clave).
-- El mensaje se cifra antes de enviarse a Firestore.
-- Firestore recibe `ciphertext`, `iv`, `uid` y fecha.
-- Para descifrar, ambos dispositivos deben introducir exactamente la misma clave.
-- Usa una clave de 16 caracteres como mínimo; se recomienda una clave larga y aleatoria.
-- Si pierdes la clave, los mensajes cifrados no pueden recuperarse.
-- Los mensajes antiguos de V3 no son compatibles con el nuevo identificador/cifrado.
+Actualmente está preparada para la versión SIN CIFRADO, donde cada mensaje tiene:
+- text
+- uid
+- createdAt
 
-IMPORTANTE: el JavaScript que se ejecuta en el navegador siempre puede inspeccionarse. Esta versión protege el contenido de los mensajes, no oculta el código.
+## Antes de usarla
 
-Después de subir la V4, publica las reglas de `firestore.rules` en Firebase Console > Firestore Database > Rules.
+1. En Firebase Console abre Authentication > Sign-in method.
+2. Habilita Email/Password.
+3. Crea un usuario administrador con correo y una contraseña fuerte.
+4. Abre Firestore Database > Rules.
+5. Copia firestore.rules y reemplaza ADMIN_EMAIL por el correo exacto del administrador.
+6. Publica las reglas.
+7. Sube index.html, app.js y style.css a un sitio independiente (GitHub Pages, Cloudflare Pages, etc.).
+
+## Importante sobre seguridad
+
+NO uses una clave de administración escrita dentro de app.js. El panel usa Firebase Authentication y las reglas de Firestore autorizan el borrado únicamente al correo administrador configurado.
+
+La aplicación NO muestra ni descifra el contenido de los mensajes. Solo consulta createdAt y elimina los documentos encontrados.
+
+## Funcionamiento
+
+- Introduce la misma clave de conversación que usa la aplicación principal.
+- Selecciona "Eliminar mensajes desde".
+- Pulsa Buscar mensajes.
+- Revisa la cantidad encontrada.
+- Confirma la eliminación.
+
+Los borrados se ejecutan en lotes de hasta 450 documentos para evitar superar el límite de operaciones por batch.
+
+## Nota
+
+La clave de conversación se usa directamente como roomId, igual que en la aplicación actual analizada para este ZIP. Si posteriormente cambias a la versión V4 con roomId derivado por SHA-256, este panel deberá adaptarse.
